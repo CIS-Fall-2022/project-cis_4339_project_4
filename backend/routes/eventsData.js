@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const { default: mongoose } = require("mongoose");
 
 //importing data model schemas
-let { eventdata } = require("../models/models"); 
+let { eventdata, organizationdata } = require("../models/models"); 
 
 //GET all entries
 router.get("/", (req, res, next) => { 
@@ -29,7 +30,7 @@ router.get("/id/:id", (req, res, next) => {
 });
 
 //GET entries based on search query
-//Ex: '...?eventName=Food&searchBy=name' 
+//Example: 'http://127.0.0.1:3000/eventData/search/?eventName=Caring&searchBy=name'
 router.get("/search/", (req, res, next) => { 
     let dbQuery = "";
     if (req.query["searchBy"] === 'name') {
@@ -51,7 +52,8 @@ router.get("/search/", (req, res, next) => {
     );
 });
 
-//GET events for which a client is signed up
+//GET events for which a client is signed up using the client id
+//Example: http://127.0.0.1:3000/eventData/client/5390a720-43f9-11ed-a422-832625efc587
 router.get("/client/:id", (req, res, next) => { 
     eventdata.find( 
         { attendees: req.params.id }, 
@@ -63,6 +65,50 @@ router.get("/client/:id", (req, res, next) => {
             }
         }
     );
+});
+
+//GET endpoint that will retrieve events by name of organization
+// Example: http://127.0.0.1:3000/eventData/orgName/Community_Center
+router.get('/orgName/:name', (req, res, next) => {
+    organizationdata.aggregate([
+        { $match: { name: req.params.name } },
+        {
+            $lookup: {
+                from: 'eventData',
+                localField: '_id',
+                foreignField: 'organization_id',
+                as: 'eventData'
+            }
+        }
+    ], (error, data) => {
+        if (error) {
+            return next(error)
+        } else {
+            res.json(data);
+        }
+    });
+});
+
+//GET endpoint that will retrieve events by the id of the organization
+// Example: http://127.0.0.1:3000/eventData/orgId/6339061b3c00665da8a64ab5
+router.get('/orgId/:id', (req, res, next) => {
+    organizationdata.aggregate([
+        { $match: { _id: mongoose.Types.ObjectId(req.params.id) } },
+        {
+            $lookup: {
+                from: 'eventData',
+                localField: '_id',
+                foreignField: 'organization_id',
+                as: 'eventData'
+            }
+        }
+    ], (error, data) => {
+        if (error) {
+            return next(error)
+        } else {
+            res.json(data);
+        }
+    });
 });
 
 //POST
@@ -94,9 +140,10 @@ router.put("/:id", (req, res, next) => {
     );
 });
 
-//PUT add attendee to event
+//PUT add attendee to event id and then enter the client string uuid in Postman for the attendees array: {"attendee": "5390a720-43f9-11ed-a422-832625efc587"}
+//Example: http://127.0.0.1:3000/eventData/addAttendee/4ab24990-4464-11ed-8ee1-a91e0221bd6d
 router.put("/addAttendee/:id", (req, res, next) => {
-    //only add attendee if not yet signed uo
+    //only add attendee if not yet signed up
     eventdata.find( 
         { _id: req.params.id, attendees: req.body.attendee }, 
         (error, data) => { 
@@ -109,7 +156,7 @@ router.put("/addAttendee/:id", (req, res, next) => {
                         { $push: { attendees: req.body.attendee } },
                         (error, data) => {
                             if (error) {
-                                consol
+                                console
                                 return next(error);
                             } else {
                                 res.json(data);

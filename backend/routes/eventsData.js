@@ -19,6 +19,20 @@ router.get("/", (req, res, next) => {
     ).sort({ 'updatedAt': -1 }).limit(10);
 });
 
+//Get next two events
+//Example : http://127.0.0.1:3000/eventData/upcoming
+router.route("/upcoming").get(function(req, res) {
+    eventdata.find({}, function(err, result) {
+        if (err) {
+          res.send(err);
+        } else {
+          res.send(result);
+        }
+      })
+      .sort({date: 1})
+      .limit(2);
+  });
+
 //GET single entry by ID of event
 //Example: http://127.0.0.1:3000/eventData/id/d71b4dc0-44df-11ed-af01-53f43b15e8c5
 router.get("/id/:id", (req, res, next) => { 

@@ -18,7 +18,7 @@ npm install morgan dotenv express mongoose nodemon uuid
 Setup a .env file with the following variables, e.g.:
 
 ```
-MONGO_URL = mongodb+srv://Moises:reJho9gaoA9o27Nw@cis4339groupproject.lztmlbn.mongodb.net/test
+MONGO_URL = mongodb+srv://<username>:<password>@cis4339groupproject.lztmlbn.mongodb.net/CIS4339
 ```
 
 ### Compiles and hot-reloads for development

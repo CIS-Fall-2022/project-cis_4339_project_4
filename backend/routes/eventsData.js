@@ -174,4 +174,17 @@ router.put("/addAttendee/:id", (req, res, next) => {
     
 });
 
+//DELETE event by ID
+//Example: 'http://127.0.0.1:3000/eventData/event/bdb9a480-4525-11ed-8d07-13a58c20e229'
+router.delete("/event/:id", (req, res, next) => { 
+    eventdata.deleteOne({ _id: req.params.id }, (error, data) => {
+        if (error) {
+            return next(error)
+        } else {
+            res.json(data)
+        }
+    })
+}); 
+
+
 module.exports = router;

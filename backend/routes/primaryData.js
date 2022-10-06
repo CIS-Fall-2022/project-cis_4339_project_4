@@ -153,4 +153,16 @@ router.put("/:id", (req, res, next) => {
     );
 });
 
+//Delete client by id
+//Example: 'http://127.0.0.1:3000/primaryData/client/a2a707d0-4527-11ed-b74f-896395cf3c7b'
+router.delete("/client/:id", (req, res, next) => { 
+    primarydata.deleteOne({ _id: req.params.id }, (error, data) => {
+        if (error) {
+            return next(error)
+        } else {
+            res.json(data)
+        }
+    })
+});
+
 module.exports = router;

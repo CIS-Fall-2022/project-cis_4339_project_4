@@ -1,3 +1,7 @@
+# URL for Published APIs
+
+https://documenter.getpostman.com/view/19704046/2s83zdwSBW
+
 # Data Platform Project Setup
 
 Requirements:

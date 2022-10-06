@@ -1,3 +1,7 @@
+# URL for published APIs:
+
+https://documenter.getpostman.com/view/19704046/2s83zdwSBW
+
 # Backend
 
 This implementation is for NodeJS based on [Express](https://expressjs.com/) and [MongoDB](https://www.mongodb.com/) and uses [mongoose](https://mongoosejs.com/) as the ODM.

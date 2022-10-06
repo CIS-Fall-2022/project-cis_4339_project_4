@@ -18,6 +18,7 @@ router.get("/", (req, res, next) => {
 });
 
 //GET single entry by ID
+//Example: 'http://127.0.0.1:3000/organizationData/id/633dd0400b7c9d8f912fb0b2'
 router.get("/id/:id", (req, res, next) => {
     organizationdata.find( 
         { _id: req.params.id }, 
@@ -32,7 +33,7 @@ router.get("/id/:id", (req, res, next) => {
 });
 
 //GET entries based on search query
-//Ex: 'http://127.0.0.1:3000/organizationData/search/?orgName=Community%20Center&searchBy=name' 
+//Ex: 'http://127.0.0.1:3000/organizationData/search/?orgName=Community%20Center&searchBy=name' (Postman: do not use %20 for spaces, %20 used in URL browser) 
 router.get("/search/", (req, res, next) => { 
     let dbQuery = "";
     if (req.query["searchBy"] === 'name') {
@@ -51,6 +52,7 @@ router.get("/search/", (req, res, next) => {
 });
 
 //POST
+//Example: http://127.0.0.1:3000/organizationData, { "name": "Community Outreach" }
 router.post("/", (req, res, next) => { 
     organizationdata.create( 
         req.body,
@@ -65,6 +67,7 @@ router.post("/", (req, res, next) => {
 });
 
 //PUT update (make sure req body doesn't have the id)
+//Example: 'http://127.0.0.1:3000/organizationData/633dd0400b7c9d8f912fb0b2'
 router.put("/:id", (req, res, next) => { 
     organizationdata.findOneAndUpdate( 
         { _id: req.params.id }, 

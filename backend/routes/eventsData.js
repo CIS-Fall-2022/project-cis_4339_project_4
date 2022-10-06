@@ -6,6 +6,7 @@ const { default: mongoose } = require("mongoose");
 let { eventdata, organizationdata } = require("../models/models"); 
 
 //GET all entries
+//Example : http://127.0.0.1:3000/eventData
 router.get("/", (req, res, next) => { 
     eventdata.find( 
         (error, data) => {
@@ -18,7 +19,8 @@ router.get("/", (req, res, next) => {
     ).sort({ 'updatedAt': -1 }).limit(10);
 });
 
-//GET single entry by ID
+//GET single entry by ID of event
+//Example: http://127.0.0.1:3000/eventData/id/d71b4dc0-44df-11ed-af01-53f43b15e8c5
 router.get("/id/:id", (req, res, next) => { 
     eventdata.find({ _id: req.params.id }, (error, data) => {
         if (error) {
@@ -29,8 +31,8 @@ router.get("/id/:id", (req, res, next) => {
     })
 });
 
-//GET entries based on search query
-//Example: 'http://127.0.0.1:3000/eventData/search/?eventName=Caring&searchBy=name'
+//GET entries based on search query by name of event
+//Example: 'http://127.0.0.1:3000/eventData/search/?eventName=Care%20for%20a%20better%20community&searchBy=name' (Postman: do not use %20 for spaces in the URL)
 router.get("/search/", (req, res, next) => { 
     let dbQuery = "";
     if (req.query["searchBy"] === 'name') {
@@ -53,7 +55,7 @@ router.get("/search/", (req, res, next) => {
 });
 
 //GET events for which a client is signed up using the client id
-//Example: http://127.0.0.1:3000/eventData/client/5390a720-43f9-11ed-a422-832625efc587
+//Example: http://127.0.0.1:3000/eventData/client/2086fb30-44e5-11ed-af01-53f43b15e8c5
 router.get("/client/:id", (req, res, next) => { 
     eventdata.find( 
         { attendees: req.params.id }, 
@@ -68,7 +70,7 @@ router.get("/client/:id", (req, res, next) => {
 });
 
 //GET endpoint that will retrieve events by name of organization
-// Example: http://127.0.0.1:3000/eventData/orgName/Community_Center
+// Example: 'http://127.0.0.1:3000/eventData/orgName/Community%20Center' (Postman: do not use %20 for spaces in the URL)
 router.get('/orgName/:name', (req, res, next) => {
     organizationdata.aggregate([
         { $match: { name: req.params.name } },
@@ -90,7 +92,7 @@ router.get('/orgName/:name', (req, res, next) => {
 });
 
 //GET endpoint that will retrieve events by the id of the organization
-// Example: http://127.0.0.1:3000/eventData/orgId/6339061b3c00665da8a64ab5
+// Example: 'http://127.0.0.1:3000/eventData/orgId/633dd0400b7c9d8f912fb0b2'
 router.get('/orgId/:id', (req, res, next) => {
     organizationdata.aggregate([
         { $match: { _id: mongoose.Types.ObjectId(req.params.id) } },
@@ -125,7 +127,8 @@ router.post("/", (req, res, next) => {
     );
 });
 
-//PUT
+//PUT data or edit data using the id of the event
+//Example: http://127.0.0.1:3000/eventData/d71b4dc0-44df-11ed-af01-53f43b15e8c5
 router.put("/:id", (req, res, next) => {
     eventdata.findOneAndUpdate(
         { _id: req.params.id },

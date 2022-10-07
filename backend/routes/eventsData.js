@@ -45,6 +45,21 @@ router.get("/id/:id", (req, res, next) => {
     })
 });
 
+//GET count of attendees per event
+//Example: 'http://127.0.0.1:3000/eventData/count/d71b4dc0-44df-11ed-af01-53f43b15e8c5'
+router.get("/count/:id", (req, res, next) => { 
+    eventdata.find(
+        { _id: req.params.id },
+        { count: { $size: "$attendees"}},
+        (error, data) => {
+        if (error) {
+            return next(error)
+        } else {
+            res.json(data)
+        }
+    })
+});
+
 //GET entries based on search query by name of event
 //Example: 'http://127.0.0.1:3000/eventData/search/?eventName=Care%20for%20a%20better%20community&searchBy=name' (Postman: do not use %20 for spaces in the URL)
 router.get("/search/", (req, res, next) => { 

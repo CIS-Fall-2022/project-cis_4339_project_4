@@ -5,6 +5,42 @@ const { default: mongoose } = require("mongoose");
 //importing data model schemas
 let { eventdata, organizationdata } = require("../models/models"); 
 
+//GET endpoint that will retrieve the attendees count for each Event by the id of the organization
+// Example: 'http://127.0.0.1:3000/eventData/orgId/count/633dd0400b7c9d8f912fb0b2'
+router.get('/orgId/count/:id', (req, res, next) => {
+    organizationdata.aggregate([
+        { $match: { _id: mongoose.Types.ObjectId(req.params.id) } },
+        {
+            $lookup: {
+                from: 'eventData',
+                localField: '_id',
+                foreignField: 'organization_id',
+                as: 'eventData'
+            }
+        }, 
+        {
+            $unwind : '$eventData'
+        },
+        {
+            $project: {
+                'eventData.organization_id': 1,
+                'eventData.eventName': 1,
+                'eventData.services': 1,
+                'eventData.date': 1, 
+                'eventData.address': 1,
+                'eventData.attendees': 1,
+                attendees_count: { $size: { $ifNull: ["$eventData.attendees", []]}}
+            }
+        }
+    ], (error, data) => {
+        if (error) {
+            return next(error)
+        } else {
+            res.json(data);
+        }
+    });
+});
+
 //GET all entries
 //Example : http://127.0.0.1:3000/eventData
 router.get("/", (req, res, next) => { 

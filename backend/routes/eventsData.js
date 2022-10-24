@@ -178,8 +178,10 @@ router.get('/orgId/:id', (req, res, next) => {
     });
 });
 
-//POST
+//POST Add a new event
+// Example: http://127.0.0.1:3000/eventData
 router.post("/", (req, res, next) => { 
+    req.body.organization_id = process.env.ORGID
     eventdata.create( 
         req.body, 
         (error, data) => { 

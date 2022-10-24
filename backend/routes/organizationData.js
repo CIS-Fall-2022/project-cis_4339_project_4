@@ -51,7 +51,7 @@ router.get("/search/", (req, res, next) => {
     );
 });
 
-//POST
+//POST Add a new Organization
 //Example: http://127.0.0.1:3000/organizationData, { "name": "Community Outreach" }
 router.post("/", (req, res, next) => { 
     organizationdata.create( 

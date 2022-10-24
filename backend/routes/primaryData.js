@@ -118,9 +118,10 @@ router.get('/orgId/:id', (req, res, next) => {
     });
 });
 
-//POST Add a new Client
+//POST Add a new client
 //Example: 'http://127.0.0.1:3000/primaryData'
-router.post("/", (req, res, next) => { 
+router.post("/", (req, res, next) => {
+    req.body.organization_id = process.env.ORGID
     primarydata.create( 
         req.body,
         (error, data) => { 

@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 
 //collection for organizationData
 let organizationDataSchema = new Schema({
-    organization_id: { type: String, default: uuid.v1 },
     name: { type: String, require: true }
 }, {
     collection: 'organizationData'

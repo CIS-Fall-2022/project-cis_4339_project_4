@@ -8,6 +8,8 @@ require("dotenv").config();
 //creates a new instance of express application
 const app = express();
 
+D = new Date (new Date().setMonth(new Date ().getMonth() - 2));
+
 // add cors header to the server
 app.use(cors({
   origin: '*'
@@ -42,6 +44,7 @@ app.use('/organizationData', organizationDataRoute)
 
 app.listen(PORT, () => {
   console.log("Server started listening on port : ", PORT);
+  console.log(D);
 });
 
 //error handler

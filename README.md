@@ -34,6 +34,4 @@ MONGO_URL = mongodb+srv://<username>:<password>@cis4339groupproject.lztmlbn.mong
 
 ORGID
 
-D = ''
-
 ```

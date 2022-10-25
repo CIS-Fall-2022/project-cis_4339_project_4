@@ -8,6 +8,7 @@ let { eventdata, organizationdata } = require("../models/models");
 //GET endpoint that will retrieve the attendees count for last 2 months Events by the id of the organization
 // Example: 'http://127.0.0.1:3000/eventData/orgId/count/two/633dd0400b7c9d8f912fb0b2'
 router.get('/orgId/count/two/:id', (req, res, next) => {
+    var d = new Date (new Date().setMonth(new Date ().getMonth() - 2));
     organizationdata.aggregate([
         { $match: { _id: mongoose.Types.ObjectId(req.params.id) } },
         {
@@ -36,7 +37,7 @@ router.get('/orgId/count/two/:id', (req, res, next) => {
         if (error) {
             return next(error)
         } else {
-            res.json(data.filter(obj=> obj.eventData.date >= D && obj.eventData.date <= new Date()));
+            res.json(data.filter(obj=> obj.eventData.date >= d && obj.eventData.date <= new Date()));
         }
     });
 });

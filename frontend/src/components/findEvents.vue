@@ -1,10 +1,16 @@
 <template>
   <main>
     <div>
-      <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">List of Events</h1>
+      <h1
+        class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10"
+      >
+        List of Events
+      </h1>
     </div>
     <div class="px-10 pt-20">
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10"
+      >
         <h2 class="text-2xl font-bold">Search Event By</h2>
         <!-- Displays Client Name search field -->
         <div class="flex flex-col">
@@ -37,7 +43,9 @@
           />
         </div>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10"
+      >
         <div></div>
         <div></div>
         <div class="mt-5 grid-cols-2">
@@ -45,19 +53,25 @@
             class="mr-10 border border-red-700 bg-white text-red-700 rounded"
             @click="clearSearch"
             type="submit"
-          >Clear Search</button>
+          >
+            Clear Search
+          </button>
           <button
             class="bg-red-700 text-white rounded"
             @click="handleSubmitForm"
             type="submit"
-          >Search Event</button>
+          >
+            Search Event
+          </button>
         </div>
       </div>
     </div>
 
     <hr class="mt-10 mb-10" />
     <!-- Display Found Data -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10"
+    >
       <div class="ml-10">
         <h2 class="text-2xl font-bold">List of Events</h2>
         <h3 class="italic">Click table row to edit/display an entry</h3>
@@ -72,7 +86,11 @@
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-300">
-            <tr @click="editEvent(event._id)" v-for="event in queryData" :key="event._id">
+            <tr
+              @click="editEvent(event._id)"
+              v-for="event in queryData[0]"
+              :key="event._id"
+            >
               <td class="p-2 text-left">{{ event.eventName }}</td>
               <td class="p-2 text-left">{{ formattedDate(event.date) }}</td>
               <td class="p-2 text-left">{{ event.address.line1 }}</td>
@@ -98,10 +116,12 @@ export default {
     };
   },
   mounted() {
-    let apiURL = import.meta.env.VITE_ROOT_API + `/eventdata/`;
+    let apiURL =
+      import.meta.env.VITE_ROOT_API +
+      `/eventdata/orgId/633dd0400b7c9d8f912fb0b2`;
     this.queryData = [];
     axios.get(apiURL).then((resp) => {
-      this.queryData = resp.data;
+      this.queryData = resp.data.map((item) => item.eventData);
     });
     window.scrollTo(0, 0);
   },
@@ -131,10 +151,12 @@ export default {
       this.eventDate = "";
 
       //get all entries
-      let apiURL = import.meta.env.VITE_ROOT_API + `/eventdata/`;
+      let apiURL =
+        import.meta.env.VITE_ROOT_API +
+        `/eventdata/orgId/633dd0400b7c9d8f912fb0b2`;
       this.queryData = [];
       axios.get(apiURL).then((resp) => {
-        this.queryData = resp.data;
+        this.queryData = resp.data.map((item) => item.eventData);
       });
     },
     editEvent(eventID) {

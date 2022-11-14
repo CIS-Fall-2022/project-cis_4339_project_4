@@ -125,19 +125,19 @@ export default {
         if (err.response) {
           // client received an error response (5xx, 4xx)
           this.error = {
-            title: "Server Response",
+            title: "Org Name Serv Resp",
             message: err.message,
           };
         } else if (err.request) {
           // client never received a response, or request never left
           this.error = {
-            title: "Unable to Reach Server",
+            title: "Org Name Reach Serv Err",
             message: err.message,
           };
         } else {
           // There's probably an error in your code
           this.error = {
-            title: "Application Error",
+            title: "Org Name App Error",
             message: err.message,
           };
         }

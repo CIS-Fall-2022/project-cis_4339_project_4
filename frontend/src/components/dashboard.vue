@@ -7,7 +7,7 @@
         Welcome
       </h1>
     </div>
-
+    
     <div>
       <EnrollmentBar
         v-if="!loading && !error"

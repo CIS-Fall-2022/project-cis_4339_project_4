@@ -1,7 +1,8 @@
 <template>
-	<div id="app">
-		<h1>Upcoming Event Calendar</h1>
+	<div>
+		<h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">Events Calendar</h1>
 		<calendar-view
+			:items="items"
 			:show-date="showDate"
 			class="theme-default holiday-us-traditional holiday-us-official">
 			<template #header="{ headerProps }">
@@ -14,7 +15,6 @@
 </template>
 <script>
 	import { CalendarView, CalendarViewHeader } from "vue-simple-calendar"
-
 	import "../../node_modules/vue-simple-calendar/dist/style.css"
 	import "../../node_modules/vue-simple-calendar/dist/css/default.css"
 	import "../../node_modules/vue-simple-calendar/dist/css/holidays-us.css"
@@ -22,7 +22,16 @@
 	export default {
 		name: 'app',
 		data: function() {
-			return { showDate: new Date() }
+			return { 
+				showDate: new Date(),
+				items: [
+					{
+						id: "1",
+						startDate: "2022-11-16",
+						title: "Test"
+					}
+				]
+			}
 		},
 		components: {
 			CalendarView,
@@ -35,13 +44,3 @@
 		}
 	}
 </script>
-<style>
-	#app {
-		font-family: 'Avenir', Helvetica, Arial, sans-serif;
-		color: #2c3e50;
-		height: 67vh;
-		width: 90vw;
-		margin-left: auto;
-		margin-right: auto;
-	}
-</style>

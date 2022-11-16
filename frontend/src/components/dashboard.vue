@@ -60,7 +60,10 @@ export default {
       try {
         this.error = null;
         this.loading = true;
-        const url = `http://127.0.0.1:3000/eventData/orgId/count/two/633dd0400b7c9d8f912fb0b2`;
+        const url =
+          import.meta.env.VITE_ROOT_API +
+          `/eventData/orgId/count/two/` +
+          import.meta.env.VITE_ORGID;
         const response = await axios.get(url);
         //"re-organizing" - mapping json from the response
         this.labels = response.data.map((item) => item.eventData.eventName);

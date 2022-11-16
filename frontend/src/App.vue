@@ -116,7 +116,10 @@ export default {
         this.error = null;
         this.loading = true;
         this.variable = null;
-        const url = `http://127.0.0.1:3000/organizationData/id/633dd0400b7c9d8f912fb0b2`;
+        const url =
+          import.meta.env.VITE_ROOT_API +
+          `/organizationData/id/` +
+          import.meta.env.VITE_ORGID;
         const response = await axios.get(url);
         //"re-organizing" - mapping json from the response
         this.organization_name = response.data.map((item) => item.name);

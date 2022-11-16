@@ -215,6 +215,29 @@ router.get('/orgId/:id', (req, res, next) => {
     });
 });
 
+//GET endpoint that will retrieve events by the id of the organization(modified)
+// Example: 'http://127.0.0.1:3000/eventData/orgId/modified/633dd0400b7c9d8f912fb0b2'
+router.get('/orgId/modified/:id', (req, res, next) => {
+    organizationdata.aggregate([
+        { $match: { _id: mongoose.Types.ObjectId(req.params.id) } },
+        {
+            $lookup: {
+                from: 'eventData',
+                localField: '_id',
+                foreignField: 'organization_id',
+                as: 'eventData'
+            }
+        }
+    ], (error, data) => {
+        if (error) {
+            return next(error)
+        } else {
+            //res.json(data);
+            res.json(data.map(obj=> obj.eventData));
+        }
+    });
+});
+
 //POST Add a new event
 // Example: http://127.0.0.1:3000/eventData
 router.post("/", (req, res, next) => { 

@@ -118,7 +118,8 @@ export default {
   mounted() {
     let apiURL =
       import.meta.env.VITE_ROOT_API +
-      `/eventdata/orgId/633dd0400b7c9d8f912fb0b2`;
+      `/eventdata/orgId/` +
+      import.meta.env.VITE_ORGID;
     this.queryData = [];
     axios.get(apiURL).then((resp) => {
       this.queryData = resp.data.map((item) => item.eventData);
@@ -153,7 +154,8 @@ export default {
       //get all entries
       let apiURL =
         import.meta.env.VITE_ROOT_API +
-        `/eventdata/orgId/633dd0400b7c9d8f912fb0b2`;
+        `/eventdata/orgId/` +
+        import.meta.env.VITE_ORGID;
       this.queryData = [];
       axios.get(apiURL).then((resp) => {
         this.queryData = resp.data.map((item) => item.eventData);

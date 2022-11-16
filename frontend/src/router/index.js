@@ -8,6 +8,12 @@ const routes = [
         component: () => import('../components/dashboard.vue')
     },
     {
+        path: '/calendar',
+        name: 'calendar',
+        props: true,
+        component: () => import('../components/calendar_working.vue')
+    },
+    {
         path: '/intakeform',
         name: 'intakeForm',
         props: true,

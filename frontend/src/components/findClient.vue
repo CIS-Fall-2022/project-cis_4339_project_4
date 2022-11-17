@@ -100,7 +100,7 @@
           <tbody class="divide-y divide-gray-300">
             <tr
               @click="editClient(client._id)"
-              v-for="client in queryData[0]"
+              v-for="client in queryData"
               :key="client._id"
             >
               <td class="p-2 text-left">
@@ -134,13 +134,10 @@ export default {
     };
   },
   mounted() {
-    let apiURL =
-      import.meta.env.VITE_ROOT_API +
-      `/primarydata/orgId/` +
-      import.meta.env.VITE_ORGID;
+    let apiURL = import.meta.env.VITE_ROOT_API + `/primarydata/`;
 
     axios.get(apiURL).then((resp) => {
-      this.queryData = resp.data.map((item) => item.primaryData);
+      this.queryData = resp.data;
     });
     window.scrollTo(0, 0);
   },
@@ -169,13 +166,10 @@ export default {
 
       //get all entries
 
-      let apiURL =
-        import.meta.env.VITE_ROOT_API +
-        `/primarydata/orgId/` +
-        import.meta.env.VITE_ORGID;
+      let apiURL = import.meta.env.VITE_ROOT_API + `/primarydata/`;
 
       axios.get(apiURL).then((resp) => {
-        this.queryData = resp.data.map((item) => item.primaryData);
+        this.queryData = resp.data;
       });
     },
 

@@ -88,7 +88,7 @@
           <tbody class="divide-y divide-gray-300">
             <tr
               @click="editEvent(event._id)"
-              v-for="event in queryData[0]"
+              v-for="event in queryData"
               :key="event._id"
             >
               <td class="p-2 text-left">{{ event.eventName }}</td>
@@ -116,13 +116,10 @@ export default {
     };
   },
   mounted() {
-    let apiURL =
-      import.meta.env.VITE_ROOT_API +
-      `/eventdata/orgId/` +
-      import.meta.env.VITE_ORGID;
+    let apiURL = import.meta.env.VITE_ROOT_API + `/eventdata/`;
     this.queryData = [];
     axios.get(apiURL).then((resp) => {
-      this.queryData = resp.data.map((item) => item.eventData);
+      this.queryData = resp.data;
     });
     window.scrollTo(0, 0);
   },
@@ -152,13 +149,10 @@ export default {
       this.eventDate = "";
 
       //get all entries
-      let apiURL =
-        import.meta.env.VITE_ROOT_API +
-        `/eventdata/orgId/` +
-        import.meta.env.VITE_ORGID;
+      let apiURL = import.meta.env.VITE_ROOT_API + `/eventdata/`;
       this.queryData = [];
       axios.get(apiURL).then((resp) => {
-        this.queryData = resp.data.map((item) => item.eventData);
+        this.queryData = resp.data;
       });
     },
     editEvent(eventID) {

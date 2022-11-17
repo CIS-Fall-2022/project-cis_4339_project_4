@@ -83,22 +83,16 @@ export default {
         });
       });
 
-    axios
-      .get(
-        import.meta.env.VITE_ROOT_API +
-          `/eventData/orgId/modified/` +
-          import.meta.env.VITE_ORGID
-      )
-      .then((resp) => {
-        let data = resp.data;
-        for (let i = 0; i < data[0].length; i++) {
-          this.eventData.push({
-            eventName: data[0][i].eventName,
-            _id: data[0][i]._id,
-            attendees: data[0][i].attendees,
-          });
-        }
-      });
+    axios.get(import.meta.env.VITE_ROOT_API + `/eventData/`).then((resp) => {
+      let data = resp.data;
+      for (let i = 0; i < data.length; i++) {
+        this.eventData.push({
+          eventName: data[i].eventName,
+          _id: data[i]._id,
+          attendees: data[i].attendees,
+        });
+      }
+    });
   },
 
   methods: {
@@ -422,7 +416,7 @@ export default {
 
           <div class="flex flex-col">
             <div class="mr-20 text-xs text-red-700" v-if="count">
-              {{ "SELECT ONLY EVENTS THAT HAVEN'T BEEN CHOSEN" }}
+              {{ "Select only events that haven't been chosen" }}
             </div>
 
             <label class="typo__label">Select Events to be added</label>

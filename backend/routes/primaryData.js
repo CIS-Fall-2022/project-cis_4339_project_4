@@ -8,13 +8,27 @@ let { eventdata } = require("../models/models");
 
 //GET all entries
 //Example: http://127.0.0.1:3000/primaryData
+//router.get("/", (req, res, next) => { 
+    //primarydata.find( 
+        //(error, data) => {
+            //if (error) {
+                //return next(error);
+            //} else {
+                //res.json(data);    
+            //}
+        //}
+    //).sort({ 'updatedAt': -1 }).limit(10);
+//});
+
+//GET all entries(modified to adapt to the frontend & display only ORGID clients))
+//Example: http://127.0.0.1:3000/primaryData
 router.get("/", (req, res, next) => { 
     primarydata.find( 
         (error, data) => {
             if (error) {
                 return next(error);
             } else {
-                res.json(data);
+                res.json(data.filter(obj=> obj.organization_id == process.env.ORGID));    
             }
         }
     ).sort({ 'updatedAt': -1 }).limit(10);

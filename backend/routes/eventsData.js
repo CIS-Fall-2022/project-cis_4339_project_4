@@ -78,7 +78,7 @@ router.get('/orgId/count/:id', (req, res, next) => {
     });
 });
 
-//GET all entries
+//GET all entries (modified to adapt to the frontend & display only ORGID events)
 //Example : http://127.0.0.1:3000/eventData
 router.get("/", (req, res, next) => { 
     eventdata.find( 
@@ -86,11 +86,25 @@ router.get("/", (req, res, next) => {
             if (error) {
                 return next(error);
             } else {
-                res.json(data);
+                res.json(data.filter(obj=> obj.organization_id == process.env.ORGID)); 
             }
         }
     ).sort({ 'updatedAt': -1 }).limit(10);
 });
+
+//GET all entries
+//Example : http://127.0.0.1:3000/eventData
+//router.get("/", (req, res, next) => { 
+    //eventdata.find( 
+        //(error, data) => {
+            //if (error) {
+                //return next(error);
+            //} else {
+                //res.json(data); 
+            //}
+        //}
+    //).sort({ 'updatedAt': -1 }).limit(10);
+//});
 
 //Get next two events
 //Example : http://127.0.0.1:3000/eventData/upcoming

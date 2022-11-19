@@ -6,6 +6,7 @@
 import '@fullcalendar/core/vdom' // solves problem with Vite
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import axios from 'axios';
 
@@ -17,7 +18,18 @@ export default {
   data() {
     return {
       calendarOptions: {
-        plugins: [ dayGridPlugin, interactionPlugin ],
+        plugins: [ dayGridPlugin, timeGridPlugin, interactionPlugin ],
+        height: "auto",
+        contentHeight: "auto",
+        expandRows: true,
+        buttonText:{
+          today: 'Today'
+        },
+        headerToolbar: {
+          start: 'dayGridMonth dayGridWeek', // will normally be on the left. if RTL, will be on the right
+          center: 'title',
+          end: 'prev today next' // will normally be on the right. if RTL, will be on the left
+          },
         initialView: 'dayGridMonth',
         timeZone: 'America/Chicago',
         events: []

@@ -11,7 +11,7 @@ const routes = [
         path: '/calendar',
         name: 'calendar',
         props: true,
-        component: () => import('../components/calendar_working.vue')
+        component: () => import('../components/Calendar.vue')
     },
     {
         path: '/intakeform',

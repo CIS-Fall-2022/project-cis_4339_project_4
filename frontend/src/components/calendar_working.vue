@@ -15,18 +15,25 @@ export default {
         plugins: [ dayGridPlugin, interactionPlugin ],
         initialView: 'dayGridMonth',
         dateClick: this.handleDateClick,
-        events: [
-          { title: 'event 1', date: '2022-11-21' },
-          { title: 'event 2', date: '2022-11-22' }
-        ]
+        names: [],
+        dates: []
       }
     }
   },
   methods: {
-    handleDateClick: function(arg) {
-      alert('date click! ' + arg.dateStr)
-    }
+
+    async fetchData() {
+      const url = 'http://127.0.0.1:3000/eventData'
+      const response = await axios.get(url);
+      this.names = response.data.map((item) => item.eventData.eventName);
+      this.dates = response.data.map((item) => item.eventData.date);
+    
+  },
+
+  mounted() {
+    this.fetchData();
   }
+}
 }
 </script>
 <template>

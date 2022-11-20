@@ -7,8 +7,10 @@
         Welcome
       </h1>
     </div>
-    
-    <div>
+
+    <div class="pad">
+      <br />
+
       <EnrollmentBar
         v-if="!loading && !error"
         :label="labels"
@@ -35,6 +37,28 @@
       <br />
       <br />
     </div>
+
+    <div class="pad">
+      <table class="table table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Event Name</th>
+            <th>Date</th>
+            <th>Number of Attendees</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(label, index) in labels" :key="label.eventName">
+            <td>{{ label }}</td>
+            <td>{{ date[index] }}</td>
+            <td>{{ enrolled[index] }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+      <br />
+      <br />
+    </div>
   </main>
 </template>
 
@@ -50,6 +74,9 @@ export default {
     return {
       labels: [],
       enrolled: [],
+
+      date: [],
+
       loading: false,
       error: null,
     };
@@ -68,6 +95,8 @@ export default {
         //"re-organizing" - mapping json from the response
         this.labels = response.data.map((item) => item.eventData.eventName);
         this.enrolled = response.data.map((item) => item.attendees_count);
+
+        this.date = response.data.map((item) => item.eventData.date);
       } catch (err) {
         if (err.response) {
           // client received an error response (5xx, 4xx)
@@ -102,3 +131,15 @@ export default {
   },
 };
 </script>
+
+<style>
+table,
+th,
+td {
+  border: 2px solid black;
+}
+
+.pad {
+  padding: 0px 50px 0px 50px;
+}
+</style>

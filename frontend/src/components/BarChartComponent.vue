@@ -34,7 +34,10 @@ export default {
       options: {
         scales: {
           y: {
-            min: 0,
+            suggestedMin: 0,
+            ticks: {
+              precision: 0,
+            },
           },
         },
       },

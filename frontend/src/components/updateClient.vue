@@ -67,6 +67,9 @@ export default {
         this.client.address.city = data.address.city;
         this.client.address.county = data.address.county;
         this.client.address.zip = data.address.zip;
+      })
+      .catch((error) => {
+        console.log(error);
       });
     axios
       .get(
@@ -81,18 +84,26 @@ export default {
             eventDate: event.date,
           });
         });
+      })
+      .catch((error) => {
+        console.log(error);
       });
 
-    axios.get(import.meta.env.VITE_ROOT_API + `/eventData/`).then((resp) => {
-      let data = resp.data;
-      for (let i = 0; i < data.length; i++) {
-        this.eventData.push({
-          eventName: data[i].eventName,
-          _id: data[i]._id,
-          attendees: data[i].attendees,
-        });
-      }
-    });
+    axios
+      .get(import.meta.env.VITE_ROOT_API + `/eventData/`)
+      .then((resp) => {
+        let data = resp.data;
+        for (let i = 0; i < data.length; i++) {
+          this.eventData.push({
+            eventName: data[i].eventName,
+            _id: data[i]._id,
+            attendees: data[i].attendees,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 
   methods: {
@@ -127,22 +138,33 @@ export default {
               import.meta.env.VITE_ROOT_API +
               `/eventdata/addAttendee/` +
               event._id;
-            axios.put(apiURL, { attendee: this.$route.params.id }).then(() => {
-              this.clientEvents = [];
-              axios
-                .get(
-                  import.meta.env.VITE_ROOT_API +
-                    `/eventdata/client/${this.$route.params.id}`
-                )
-                .then((resp) => {
-                  let data = resp.data;
-                  for (let i = 0; i < data.length; i++) {
-                    this.clientEvents.push({
-                      eventName: data[i].eventName,
-                    });
-                  }
-                });
-            });
+            axios
+              .put(apiURL, { attendee: this.$route.params.id })
+              .then(() => {
+                this.clientEvents = [];
+                axios
+                  .get(
+                    import.meta.env.VITE_ROOT_API +
+                      `/eventdata/client/${this.$route.params.id}`
+                  )
+                  .then((resp) => {
+                    let data = resp.data;
+                    for (let i = 0; i < data.length; i++) {
+                      this.clientEvents.push({
+                        eventName: data[i].eventName,
+                      });
+                    }
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          })
+          .catch((error) => {
+            console.log(error);
           });
       });
     },

@@ -221,7 +221,17 @@
               Go back
             </button>
           </div>
+          <div class="flex justify-between mt-10 mr-20">
+            <button
+              @click="handleEventDelete"
+              type="delete"
+              class="bg-red-700 text-white rounded"
+            >
+              Delete Event
+            </button>
+          </div>
         </div>
+        
 
         <hr class="mt-10 mb-10" />
 
@@ -351,6 +361,16 @@ export default {
           console.log(error);
         });
       });
+    },
+    handleEventDelete() {
+      this.event.services = this.checkedServices;
+      let apiURL = import.meta.env.VITE_ROOT_API + `/eventdata/event/${this.id}`;
+      axios.delete(apiURL, this.event).then(() => {
+        alert("Delete has been saved.");
+      })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     editClient(clientID) {
       this.$router.push({ name: "updateclient", params: { id: clientID } });
